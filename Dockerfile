@@ -1,19 +1,12 @@
-FROM php:5-fpm
+FROM gaozhi/docker-php5-fpm-phalcon3:latest
 
 ENV GYPFLAGS="-Dv8_use_external_startup_data=0 -Dlinux_use_bundled_gold=0"
 
 RUN \
     apt-get update && \
-    apt-get install -y binutils chrpath php5-dev libpcre3-dev g++ gcc make python git libvpx-dev libjpeg62-turbo-dev libpng12-dev libfreetype6-dev && \
+    apt-get install -y binutils chrpath python && \
     apt-get clean && \
     rm -rf /var/lib/apt/list/*
-
-RUN \
-    cd ${HOME} && \
-    git clone git://github.com/phalcon/cphalcon.git && \
-    cd cphalcon/build && \
-    ./install && \
-    docker-php-ext-enable phalcon.so
 
 RUN \
     cd ${HOME} && \
@@ -37,43 +30,14 @@ RUN \
     git checkout 0.6.4 && \
     phpize && \
     ./configure && \
-    make && make test && make install && \
-    docker-php-ext-enable v8js.so
+    make && make test && make install
 
 RUN \
-    docker-php-ext-configure pdo_mysql && \
-    docker-php-ext-configure mbstring && \
-    docker-php-ext-configure sockets && \
-    docker-php-ext-configure gd --with-jpeg-dir=/usr/include --with-vpx-dir=/usr/include --with-freetype-dir=/usr/include && \
-    docker-php-ext-configure opcache && \
-    docker-php-ext-configure exif && \
-    docker-php-ext-install pdo_mysql mbstring sockets gd opcache exif
-
-RUN \
-    pecl install redis-2.2.8 && \
-    docker-php-ext-enable redis.so && \
-    pecl install mongo-1.6.14 && \
-    docker-php-ext-enable mongo.so && \
-    pecl clear-cache
-
-RUN \
-    apt-get update && \
-    apt-get install -y libmcrypt-dev && \
-    docker-php-ext-configure mcrypt && \
-    docker-php-ext-install mcrypt && \
-    apt-get clean && \
-    rm -rf ${HOME}/cphalcon && \
     rm -rf ${HOME}/depot_tools && \
     rm -rf ${HOME}/v8 && \
-    rm -rf /tmp/v8js && \
-    rm -rf /var/lib/apt/list/*
+    rm -rf /tmp/v8js
 
 RUN \
+    docker-php-ext-enable v8js.so && \
     mkdir -p ${HOME}/php-default-conf && \
     cp -R /usr/local/etc/* ${HOME}/php-default-conf
-
-ADD ["./docker-entrypoint.sh", "/root/"]
-
-VOLUME ["/var/www", "/usr/local/etc"]
-
-ENTRYPOINT ["sh", "-c", "${HOME}/docker-entrypoint.sh"]
