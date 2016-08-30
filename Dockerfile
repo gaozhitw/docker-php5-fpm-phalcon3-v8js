@@ -33,6 +33,11 @@ RUN \
     make && make test && make install
 
 RUN \
+    pecl install gearman-1.1.2 && \
+    docker-php-ext-enable gearman.so && \
+    pecl clear-cache
+
+RUN \
     rm -rf ${HOME}/depot_tools && \
     rm -rf ${HOME}/v8 && \
     rm -rf /tmp/v8js
