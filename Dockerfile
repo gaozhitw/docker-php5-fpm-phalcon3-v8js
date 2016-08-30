@@ -33,9 +33,13 @@ RUN \
     make && make test && make install
 
 RUN \
+    apt-get update && \
+    apt-get install -y libgearman-dev && \
     pecl install gearman-1.1.2 && \
     docker-php-ext-enable gearman.so && \
-    pecl clear-cache
+    pecl clear-cache && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/list/*
 
 RUN \
     rm -rf ${HOME}/depot_tools && \
