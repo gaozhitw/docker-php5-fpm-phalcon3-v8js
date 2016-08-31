@@ -46,7 +46,7 @@ RUN \
     apt-get install -y tesseract-ocr libglib2.0-dev libcurl4-openssl-dev && \
     cd ${HOME} && \
     curl -L 'https://megatools.megous.com/builds/megatools-1.9.97.tar.gz' > megatools-1.9.97.tar.gz && \
-    tar -zxf megatools-1.9.97 && \
+    tar -zxf megatools-1.9.97.tar.gz && \
     cd megatools-1.9.97 && \
     ./configure --disable-shared --enable-static && \
     make && make install && \
