@@ -42,6 +42,20 @@ RUN \
     rm -rf /var/lib/apt/list/*
 
 RUN \
+    apt-get update && \
+    apt-get install -y tesseract-ocr libglib2.0-dev libcurl4-openssl-dev && \
+    cd ${HOME} && \
+    curl -L 'https://megatools.megous.com/builds/megatools-1.9.97.tar.gz' > megatools-1.9.97.tar.gz && \
+    tar -zxf megatools-1.9.97 && \
+    cd megatools-1.9.97 && \
+    ./configure --disable-shared --enable-static && \
+    make && make install && \
+    rm -rf ${HOME}/megatools-1.9.97 && \
+    rm ${HOME}/megatools-1.9.97.tar.gz && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/list/*
+
+RUN \
     rm -rf ${HOME}/depot_tools && \
     rm -rf ${HOME}/v8 && \
     rm -rf /tmp/v8js
