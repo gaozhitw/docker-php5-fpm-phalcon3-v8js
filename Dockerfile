@@ -65,7 +65,7 @@ RUN \
     mkdir -p ${HOME}/php-default-conf && \
     cp -R /usr/local/etc/* ${HOME}/php-default-conf
 
-VOLUME ["/var/spool/cron/crontabs"]
+VOLUME ["/var/spool/cron/crontabs", "/var/www", "/usr/local/etc"]
 
 ADD ["./docker-entrypoint.sh", "/root/"]
 
