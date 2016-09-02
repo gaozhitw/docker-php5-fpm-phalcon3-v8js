@@ -43,7 +43,7 @@ RUN \
 
 RUN \
     apt-get update && \
-    apt-get install -y tesseract-ocr libglib2.0-dev libcurl4-openssl-dev && \
+    apt-get install -y tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron && \
     cd ${HOME} && \
     curl -L 'https://megatools.megous.com/builds/megatools-1.9.97.tar.gz' > megatools-1.9.97.tar.gz && \
     tar -zxf megatools-1.9.97.tar.gz && \
@@ -64,3 +64,7 @@ RUN \
     docker-php-ext-enable v8js.so && \
     mkdir -p ${HOME}/php-default-conf && \
     cp -R /usr/local/etc/* ${HOME}/php-default-conf
+
+ADD ["./docker-entrypoint.sh", "/root/"]
+
+ENTRYPOINT ["sh", "-c", "${HOME}/docker-entrypoint.sh"]
