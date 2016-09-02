@@ -65,6 +65,8 @@ RUN \
     mkdir -p ${HOME}/php-default-conf && \
     cp -R /usr/local/etc/* ${HOME}/php-default-conf
 
+VOLUME ["/var/spool/cron/crontabs"]
+
 ADD ["./docker-entrypoint.sh", "/root/"]
 
 ENTRYPOINT ["sh", "-c", "${HOME}/docker-entrypoint.sh"]
