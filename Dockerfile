@@ -17,7 +17,7 @@ RUN \
     unzip ninja-linux.zip && \
     rm ninja-linux.zip && \
     mv ninja /usr/local/bin && \
-    echo -e "is_component_build = true\nv8_enable_i18n_support = false" >> ${PWD}/out.gn/x64.release/args.gn && \
+    echo "is_component_build = true\nv8_enable_i18n_support = false" >> ${PWD}/out.gn/x64.release/args.gn && \
     ninja -C out.gn/x64.release
 
 RUN \
