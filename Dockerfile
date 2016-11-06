@@ -18,7 +18,6 @@ RUN \
     rm ninja-linux.zip && \
     mv ninja /usr/local/bin && \
     echo -e "is_component_build = true\nv8_enable_i18n_support = false" >> ${PWD}/out.gn/x64.release/args.gn && \
-    sed -i -e "s/\"v8_enable_i18n_support\": true/\"v8_enable_i18n_support\": false/g" ${PWD}/out.gn/x64.release/v8_build_config.json && \
     ninja -C out.gn/x64.release
 
 RUN \
