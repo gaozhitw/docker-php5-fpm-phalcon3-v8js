@@ -48,7 +48,7 @@ RUN \
     curl -L 'https://megatools.megous.com/builds/megatools-1.9.98.tar.gz' > megatools-1.9.98.tar.gz && \
     tar -zxf megatools-1.9.98.tar.gz && \
     cd megatools-1.9.98 && \
-    ./configure --disable-shared --enable-static && \
+    ./configure --disable-docs && \
     make && make install && \
     chmod ug+s /usr/local/bin/mega* && \
     rm -rf ${HOME}/megatools-1.9.98 && \
