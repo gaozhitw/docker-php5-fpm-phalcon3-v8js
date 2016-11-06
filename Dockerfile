@@ -45,14 +45,14 @@ RUN \
     apt-get update && \
     apt-get install -y tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick && \
     cd ${HOME} && \
-    curl -L 'https://megatools.megous.com/builds/megatools-1.9.97.tar.gz' > megatools-1.9.97.tar.gz && \
-    tar -zxf megatools-1.9.97.tar.gz && \
-    cd megatools-1.9.97 && \
+    curl -L 'https://megatools.megous.com/builds/megatools-1.9.98.tar.gz' > megatools-1.9.98.tar.gz && \
+    tar -zxf megatools-1.9.98.tar.gz && \
+    cd megatools-1.9.98 && \
     ./configure --disable-shared --enable-static && \
     make && make install && \
     chmod ug+s /usr/local/bin/mega* && \
-    rm -rf ${HOME}/megatools-1.9.97 && \
-    rm ${HOME}/megatools-1.9.97.tar.gz && \
+    rm -rf ${HOME}/megatools-1.9.98 && \
+    rm ${HOME}/megatools-1.9.98.tar.gz && \
     apt-get clean && \
     rm -rf /var/lib/apt/list/*
 
