@@ -1,10 +1,8 @@
 FROM gaozhi/docker-php5-fpm-phalcon3:latest
 
-ENV GYPFLAGS="-Dv8_use_external_startup_data=0 -Dlinux_use_bundled_gold=0"
-
 RUN \
     apt-get update && \
-    apt-get install -y binutils chrpath python wget && \
+    apt-get install -y binutils python wget zip && \
     apt-get clean && \
     rm -rf /var/lib/apt/list/*
 
@@ -14,14 +12,21 @@ RUN \
     export PATH=${PWD}/depot_tools:$PATH && \
     fetch v8 && \
     cd v8 && \
-    make native library=shared snapshot=on -j8
+    tools/dev/v8gen.py x64.release && \
+    wget https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
+    unzip ninja-linux.zip && \
+    rm ninja-linux.zip && \
+    mv ninja /usr/local/bin && \
+    echo -e "is_component_build = true\nv8_enable_i18n_support = false" >> args.gn && \
+    sed -i -e "s/\"v8_enable_i18n_support\": true/\"v8_enable_i18n_support\": false/g" out.gn/x64.release/v8_build_config.json && \
+    ninja -C out.gn/x64.release
 
 RUN \
     mkdir -p /usr/lib /usr/include && \
-    cp ${HOME}/v8/out/native/lib.target/lib*.so /usr/lib/ && \
+    cp ${HOME}/v8/out.gn/x64.release/lib*.so /usr/lib/ && \
+    cp ${HOME}/v8/out.gn/x64.release/*.bin /usr/lib/ && \
     cp -R ${HOME}/v8/include/* /usr/include && \
-    chrpath -r $ORIGIN /usr/lib/libv8.so && \
-    echo "create /usr/lib/libv8_libplatform.a\naddlib ${HOME}/v8/out/native/obj.target/src/libv8_libplatform.a\nsave\nend" | ar -M
+    echo -e "create /usr/lib/libv8_libplatform.a\naddlib ${HOME}/v8/out.gn/x64.release/obj/libv8_libplatform.a\nsave\nend" | ar -M
 
 RUN \
     cd /tmp && \
