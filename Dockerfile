@@ -4,7 +4,7 @@ ENV GYPFLAGS="-Dv8_use_external_startup_data=0 -Dlinux_use_bundled_gold=0"
 
 RUN \
     apt-get update && \
-    apt-get install -y binutils chrpath python && \
+    apt-get install -y binutils chrpath python wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/list/*
 
