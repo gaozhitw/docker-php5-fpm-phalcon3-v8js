@@ -25,7 +25,7 @@ RUN \
     cp ${HOME}/v8/out.gn/x64.release/lib*.so /usr/lib/ && \
     cp ${HOME}/v8/out.gn/x64.release/*.bin /usr/lib/ && \
     cp -R ${HOME}/v8/include/* /usr/include && \
-    echo -e "create /usr/lib/libv8_libplatform.a\naddlib ${HOME}/v8/out.gn/x64.release/obj/libv8_libplatform.a\nsave\nend" | ar -M
+    echo "create /usr/lib/libv8_libplatform.a\naddlib ${HOME}/v8/out.gn/x64.release/obj/libv8_libplatform.a\nsave\nend" | ar -M
 
 RUN \
     cd /tmp && \
