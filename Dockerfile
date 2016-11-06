@@ -12,13 +12,13 @@ RUN \
     export PATH=${PWD}/depot_tools:$PATH && \
     fetch v8 && \
     cd v8 && \
-    tools/dev/v8gen.py x64.release && \
+    ${PWD}/tools/dev/v8gen.py x64.release && \
     wget https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
     unzip ninja-linux.zip && \
     rm ninja-linux.zip && \
     mv ninja /usr/local/bin && \
-    echo -e "is_component_build = true\nv8_enable_i18n_support = false" >> args.gn && \
-    sed -i -e "s/\"v8_enable_i18n_support\": true/\"v8_enable_i18n_support\": false/g" out.gn/x64.release/v8_build_config.json && \
+    echo -e "is_component_build = true\nv8_enable_i18n_support = false" >> ${PWD}/out.gn/x64.release/args.gn && \
+    sed -i -e "s/\"v8_enable_i18n_support\": true/\"v8_enable_i18n_support\": false/g" ${PWD}/out.gn/x64.release/v8_build_config.json && \
     ninja -C out.gn/x64.release
 
 RUN \
